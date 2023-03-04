@@ -4,7 +4,7 @@ import NotionService from "../services/notionServices";
 import { BlogPost } from "../@types/schema";
 import { Layout, BlogCard } from "../components";
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async () => {
   const notionService = new NotionService();
   const posts = await notionService.getPublishedBlogPosts();
 
@@ -15,9 +15,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export default function Home({
-  posts,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Home({ posts }: any) {
   return (
     <Layout title="Home">
       <div className="min-h-screen">
