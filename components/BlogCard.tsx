@@ -9,10 +9,10 @@ type BlogCardProps = {
 const localizedFormat = require("dayjs/plugin/localizedFormat");
 dayjs.extend(localizedFormat);
 
-const BlogCard: FunctionComponent<BlogCardProps> = ({ post }) => {
+export const BlogCard: FunctionComponent<BlogCardProps> = ({ post }) => {
   return (
     <Link href={`/post/${post.slug}`}>
-      <a className="transition duration-300 hover:scale-105">
+      <div className="transition duration-300 hover:scale-105">
         <div
           key={post.title}
           className="flex flex-col rounded-xl shadow-lg overflow-hidden"
@@ -50,9 +50,7 @@ const BlogCard: FunctionComponent<BlogCardProps> = ({ post }) => {
             </div>
           </div>
         </div>
-      </a>
+      </div>
     </Link>
   );
 };
-
-export default BlogCard;
