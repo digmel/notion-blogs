@@ -12,7 +12,8 @@ module.exports = {
     fontFamily: {
       sans: ["Graphik", "sans-serif"],
       serif: ["Merriweather", "serif"],
+      mono: ["'Inconsolata'"],
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };
