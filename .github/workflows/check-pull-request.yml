@@ -45,14 +45,24 @@ jobs:
 
       - name: Build
         run: |
-          sudo apt-get update && sudo apt-get install openssl &&
           npm run build && npm run export && touch ./out/.nojekyll &&
           echo ${{ env.SUBDOMAIN }} > ./out/CNAME &&
           echo "Generated subdomain: ${{ env.SUBDOMAIN }}"
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
-          SUBDOMAIN: "$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 7).smugglebuy.com"
+          SUBDOMAIN: "pr-${{ github.event.pull_request.number }}.smugglebuy.com"
+
+      # - name: Build
+      #   run: |
+      #     sudo apt-get update && sudo apt-get install openssl &&
+      #     npm run build && npm run export && touch ./out/.nojekyll &&
+      #     echo ${{ env.SUBDOMAIN }} > ./out/CNAME &&
+      #     echo "Generated subdomain: ${{ env.SUBDOMAIN }}"
+      #   env:
+      #     NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
+      #     NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
+      #     SUBDOMAIN: "$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 7).smugglebuy.com"
 
       # - name: Deploy 🚀
       #   if: success()
@@ -63,16 +73,16 @@ jobs:
       #     FOLDER: out
       #     DOMAIN: ${{ env.SUBDOMAIN }}
 
-      # - name: Set status
-      #   if: github.event_name == 'pull_request'
-      #   uses: EndBug/add-and-commit@v7.0.0
-      #   with:
-      #     author_name: GitHub Actions
-      #     author_email: actions@github.com
-      #     message: "Status Preview: https://${{ env.SUBDOMAIN }}"
-      #     add: CNAME
-      #     signoff: true
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set status
+        if: github.event_name == 'pull_request'
+        uses: EndBug/add-and-commit@v7.0.0
+        with:
+          author_name: GitHub Actions
+          author_email: actions@github.com
+          message: "Status Preview: https://pr-${{ github.event.pull_request.number }}.smugglebuy.com"
+          add: CNAME
+          signoff: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
@@ -83,7 +93,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: "https://pr-${{ github.event.pull_request.number }}.smugglebuy.com"
     runs-on: ubuntu-latest
     needs: build
     steps:
