@@ -58,8 +58,7 @@ jobs:
 
       - name: Add PR label
         uses: peter-evans/create-or-update-comment@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: "Preview: https://${{ github.event.pull_request.head.sha }}.smugglebuy.com"
