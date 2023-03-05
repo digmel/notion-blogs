@@ -19,8 +19,15 @@ jobs:
         with:
           node-version: "16.x"
 
-      - name: Create branch
+      - name: Create deployment branch for PR
         run: git checkout -b deploy/pr-${{ github.event.pull_request.head.sha }}
+        run: |
+          if git rev-parse --verify "deploy/pr-${{ github.event.pull_request.head.sha }}" >/dev/null 2>&1; then
+            echo "Branch deploy/pr-${{ github.event.pull_request.head.sha }} already exists."
+          else
+            echo "Creating branch deploy/pr-${{ github.event.pull_request.head.sha }}..."
+            git checkout -b "deploy/pr-${{ github.event.pull_request.head.sha }}"
+          fi
 
       - name: Installing my packages
         run: |
