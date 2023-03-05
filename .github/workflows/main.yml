@@ -51,7 +51,7 @@ jobs:
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
           DOMAIN: ${{ secrets.CUSTOM_DOMAIN }}
 
-      - name: Set Status
+      - name: Set status
         if: github.event_name == 'pull_request'
         uses: EndBug/add-and-commit@v7.0.0
 
