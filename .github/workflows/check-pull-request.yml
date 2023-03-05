@@ -1,0 +1,76 @@
+name: Checking Pull Request
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+
+      - name: Create branch
+        run: git checkout -b deploy/pr-${{ github.event.pull_request.head.sha }}
+
+      - name: Installing my packages
+        run: |
+          if [ -e yarn.lock ]; then
+            yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+            npm ci
+          else
+            npm i
+          fi
+
+      - name: Build
+        run: |
+          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME
+        env:
+          NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
+          NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
+          CNAME: ${{ github.event.pull_request.head.sha }}.smugglebuy.com
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: deploy/pr-${{ github.event.pull_request.head.sha }}
+          FOLDER: out
+          CNAME: ${{ env.CNAME }}
+
+      - name: Set status
+        if: github.event_name == 'pull_request'
+        uses: EndBug/add-and-commit@v7.0.0
+        with:
+          author_name: GitHub Actions
+          author_email: actions@github.com
+          message: "CI status"
+          add: CNAME
+          signoff: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add PR label
+        uses: peter-evans/create-or-update-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: "Preview: https://${{ github.event.pull_request.head.sha }}.smugglebuy.com"
+
+      - name: Set status 2
+        uses: suzuki-shunsuke/github-status-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state: success
+          description: "Deployed to ${{ github.event.pull_request.head.sha }}.smugglebuy.com"
+          context: pr-deploy
