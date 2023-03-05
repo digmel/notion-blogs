@@ -1,8 +1,7 @@
-import { GetStaticProps, InferGetStaticPropsType } from "next";
-import Head from "next/head";
+import { GetStaticProps } from "next";
 import NotionService from "../services/notionServices";
 import { BlogPost } from "../@types/schema";
-import { Layout, BlogCard } from "../components";
+import { BlogCard } from "../components";
 
 export const getStaticProps: GetStaticProps = async () => {
   const notionService = new NotionService();
@@ -17,7 +16,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default function Home({ posts }: any) {
   return (
-    <Layout title="Home">
+    <>
       <div className="min-h-screen">
         <main className="max-w-5xl mx-auto relative">
           <div className="h-full pt-4 pb-16 mx-auto">
@@ -32,6 +31,6 @@ export default function Home({ posts }: any) {
           </div>
         </main>
       </div>
-    </Layout>
+    </>
   );
 }
