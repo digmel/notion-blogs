@@ -14,9 +14,8 @@ module.exports = {
       center: true,
     },
     fontFamily: {
-      sans: ["Graphik", "sans-serif"],
-      serif: ["Merriweather", "serif"],
-      mono: ["'Inconsolata'"],
+      sans: ["Poppins", "sans-serif"],
+      serif: ["Poppins", "serif"],
     },
   },
   plugins: [require("@tailwindcss/typography")],
