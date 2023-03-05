@@ -39,7 +39,7 @@ jobs:
         run: |
           echo "$CNAME" > CNAME
         env:
-          CNAME: ${{ github.event.pull_request.head.ref }}.smugglebuy.com
+          CNAME: test.smugglebuy.com
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
