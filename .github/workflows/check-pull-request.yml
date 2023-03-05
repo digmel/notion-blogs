@@ -19,6 +19,12 @@ jobs:
         with:
           node-version: "16.x"
 
+      - name: Generate subdomain
+        run: |
+          subdomain=$(openssl rand -hex 5 | tr -d '\n')
+          subdomain=$(echo "$subdomain" | sed 's/[^a-zA-Z]/-/g')
+          echo "Subdomain: $subdomain"
+
       - name: Installing my packages
         run: |
           if [ -e yarn.lock ]; then
@@ -31,7 +37,7 @@ jobs:
 
       - name: Build
         run: |
-          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME
+          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME && echo "Subdomain here too: $subdomain"
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
