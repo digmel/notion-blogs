@@ -22,7 +22,7 @@ jobs:
       - name: Generate subdomain
         run: |
           sudo apt-get update && sudo apt-get install openssl
-          SUBDOMAIN="pr-$(openssl rand -hex 3 | tr -d '\n' | xxd -r -p | tr -dc 'a-z' | head -c 5).smugglebuy.com"
+          SUBDOMAIN="pr-$(openssl rand -hex 3 | tr -d '\n' | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 5).smugglebuy.com"
           echo "Subdomain: $SUBDOMAIN"
 
       - name: Installing my packages
@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: deploy/pr-${{ github.event.pull_request.head.sha }}
           FOLDER: out
-          CNAME: ${{ env.CNAME }}
+          DOMAIN: ${{ env.CNAME }}
 
       - name: Set status
         if: github.event_name == 'pull_request'
