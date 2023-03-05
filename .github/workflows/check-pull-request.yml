@@ -6,6 +6,13 @@ on:
     types: [opened, synchronize]
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -55,15 +62,24 @@ jobs:
         with:
           author_name: GitHub Actions
           author_email: actions@github.com
-          message: "CI status Preview: https://${{ env.SUBDOMAIN }}"
+          message: "Status Preview: https://${{ env.SUBDOMAIN }}"
           add: CNAME
           signoff: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy Pages
-        if: success()
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          personal_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: deploy/pr-${{ github.event.pull_request.number }}
-          publish_dir: ./out
+          path: ./out
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
