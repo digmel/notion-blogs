@@ -23,7 +23,7 @@ jobs:
         run: |
           subdomain=$(pwgen -A -0 -B 5 3)
           subdomain=$(echo "$subdomain" | sed 's/[^a-zA-Z]/-/g')
-        echo "Subdomain: $subdomain"
+          echo "Subdomain: $subdomain"
 
       - name: Installing my packages
         run: |
@@ -37,12 +37,11 @@ jobs:
 
       - name: Build
         run: |
-          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME
+          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME && echo "Subdomain here too: $subdomain"
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
           CNAME: ${{ github.event.pull_request.head.sha }}.smugglebuy.com
-        echo "Subdomain here too: $subdomain"
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
