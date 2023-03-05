@@ -2,8 +2,14 @@ name: Checking Pull Request
 
 on:
   pull_request:
-    branches: [main]
+    branches: [$default-branch]
     types: [opened, synchronize]
+  push:
+    branches: [$default-branch]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 permissions:
   contents: write
   pages: write
@@ -21,6 +27,7 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
+
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
@@ -47,25 +54,25 @@ jobs:
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
           SUBDOMAIN: "$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 7).smugglebuy.com"
 
-      - name: Deploy 🚀
-        if: success()
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: deploy/pr-${{ github.event.pull_request.number }}
-          FOLDER: out
-          DOMAIN: ${{ env.SUBDOMAIN }}
+      # - name: Deploy 🚀
+      #   if: success()
+      #   uses: JamesIves/github-pages-deploy-action@v4.3.3
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     BRANCH: deploy/pr-${{ github.event.pull_request.number }}
+      #     FOLDER: out
+      #     DOMAIN: ${{ env.SUBDOMAIN }}
 
-      - name: Set status
-        if: github.event_name == 'pull_request'
-        uses: EndBug/add-and-commit@v7.0.0
-        with:
-          author_name: GitHub Actions
-          author_email: actions@github.com
-          message: "Status Preview: https://${{ env.SUBDOMAIN }}"
-          add: CNAME
-          signoff: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Set status
+      #   if: github.event_name == 'pull_request'
+      #   uses: EndBug/add-and-commit@v7.0.0
+      #   with:
+      #     author_name: GitHub Actions
+      #     author_email: actions@github.com
+      #     message: "Status Preview: https://${{ env.SUBDOMAIN }}"
+      #     add: CNAME
+      #     signoff: true
+      #     token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
