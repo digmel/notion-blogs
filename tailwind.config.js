@@ -5,7 +5,11 @@ module.exports = {
     "./icons/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#80888A",
+      },
+    },
     container: {
       center: true,
     },
