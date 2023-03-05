@@ -21,7 +21,7 @@ jobs:
 
       - name: Generate subdomain
         run: |
-          subdomain=$(pwgen -A -0 -B 5 3)
+          subdomain=$(openssl rand -hex 5 | tr -d '\n')
           subdomain=$(echo "$subdomain" | sed 's/[^a-zA-Z]/-/g')
           echo "Subdomain: $subdomain"
 
