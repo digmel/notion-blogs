@@ -2,14 +2,13 @@ import { GetStaticProps, InferGetStaticPropsType } from "next";
 import ReactMarkdown from "react-markdown";
 import Head from "next/head";
 import NotionService from "../../services/notionServices";
-import { Layout } from "../../components";
 
 const Post = ({
   markdown,
   post,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <Layout title="Blogs">
+    <>
       <Head>
         <title>{post.title}</title>
         <meta
@@ -35,7 +34,7 @@ const Post = ({
           </div>
         </main>
       </div>
-    </Layout>
+    </>
   );
 };
 
