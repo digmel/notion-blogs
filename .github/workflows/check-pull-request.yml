@@ -20,9 +20,11 @@ jobs:
           node-version: "16.x"
 
       - name: Generate subdomain
+        env:
+          RAPIDAPI_HOST: wordsapiv1.p.rapidapi.com
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
-          subdomain=$(openssl rand -hex 5 | tr -d '\n')
-          subdomain=$(echo "$subdomain" | sed 's/[^a-zA-Z]/-/g')
+          subdomain=$(curl -s -H "x-rapidapi-host: $RAPIDAPI_HOST" -H "x-rapidapi-key: $RAPIDAPI_KEY" "https://wordsapiv1.p.rapidapi.com/words/?random=true" | jq -r '.word + "-" + .results[0].partOfSpeech + "-" + .results[0].synonyms[0]')
           echo "Subdomain: $subdomain"
 
       - name: Installing my packages
