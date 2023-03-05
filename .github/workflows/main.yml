@@ -1,4 +1,4 @@
-name: check-Dev-PR
+name: pipeline
 
 on:
   pull_request:
