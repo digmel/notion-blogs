@@ -51,14 +51,7 @@ jobs:
         with:
           author_name: GitHub Actions
           author_email: actions@github.com
-          message: "CI status"
+          message: "CI status Preview: https://${{ github.event.pull_request.head.sha }}.smugglebuy.com"
           add: CNAME
           signoff: true
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add PR label
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: "Preview: https://${{ github.event.pull_request.head.sha }}.smugglebuy.com"
