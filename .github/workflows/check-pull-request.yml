@@ -67,7 +67,12 @@ jobs:
           signoff: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
-        # Deployment job
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./out
+
+  # Deployment job
   deploy:
     environment:
       name: github-pages
