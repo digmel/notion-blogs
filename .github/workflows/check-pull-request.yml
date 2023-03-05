@@ -47,7 +47,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: deploy/pr-${{ github.event.pull_request.head.number }}
+          BRANCH: deploy/pr-${{ github.event.pull_request.number }}
           FOLDER: out
           DOMAIN: $SUBDOMAIN
 
@@ -67,5 +67,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: deploy/pr-${{ github.event.pull_request.head.number }}
+          publish_branch: deploy/pr-${{ github.event.pull_request.number }}
           publish_dir: ./out
