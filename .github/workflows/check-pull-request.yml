@@ -37,11 +37,10 @@ jobs:
 
       - name: Build
         run: |
-          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME
+          npm run build && npm run export && touch ./out/.nojekyll && echo $SUBDOMAIN > ./out/CNAME && echo "Generated subdomain here too: $SUBDOMAIN"
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
-          CNAME: $SUBDOMAIN
 
       - name: Deploy 🚀
         if: success()
@@ -50,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: deploy/pr-${{ github.event.pull_request.head.number }}
           FOLDER: out
-          DOMAIN: ${{ env.CNAME }}
+          DOMAIN: $SUBDOMAIN
 
       - name: Set status
         if: github.event_name == 'pull_request'
@@ -58,7 +57,7 @@ jobs:
         with:
           author_name: GitHub Actions
           author_email: actions@github.com
-          message: "CI status Preview: https://${{ env.CNAME }}"
+          message: "CI status Preview: https://$SUBDOMAIN"
           add: CNAME
           signoff: true
           token: ${{ secrets.GITHUB_TOKEN }}
