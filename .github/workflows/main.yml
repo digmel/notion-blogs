@@ -25,7 +25,7 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
 
-      - name: Use Node.js 16.x
+      - name: Set up Node.js v16.x
         uses: actions/setup-node@v1
         with:
           node-version: "16.x"
@@ -49,16 +49,11 @@ jobs:
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
-          DOMAIN: "smugglebuy.com"
+          DOMAIN: ${{ secrets.CUSTOM_DOMAIN }}
 
-      - name: Set Status
+      - name: Set status
         if: github.event_name == 'pull_request'
         uses: EndBug/add-and-commit@v7.0.0
-        with:
-          author_name: GitHub Actions
-          author_email: actions@github.com
-          signoff: true
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
