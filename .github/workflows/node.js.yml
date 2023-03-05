@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -44,3 +46,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: public # The branch the action should deploy to.
           FOLDER: out # The folder the action should deploy.
+      - name: Set status
+        if: github.event_name == 'pull_request'
+        uses: EndBug/add-and-commit@v7.0.0
+        with:
+          author_name: GitHub Actions
+          author_email: actions@github.com
+          message: "CI status"
+          add: CNAME
+          signoff: true
+          token: ${{ secrets.GITHUB_TOKEN }}
