@@ -66,11 +66,3 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: "Preview: https://${{ github.event.pull_request.head.sha }}.smugglebuy.com"
-
-      - name: Set status 2
-        uses: suzuki-shunsuke/github-status-action@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          state: success
-          description: "Deployed to ${{ github.event.pull_request.head.sha }}.smugglebuy.com"
-          context: pr-deploy
