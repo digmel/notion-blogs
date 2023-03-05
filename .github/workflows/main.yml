@@ -74,7 +74,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: "learnbypractice.org"
+      url: "smugglebuy.com"
       # url: |
       #   if [ github.event_name == 'pull_request' ]; then
       #     "https://pr-${{ github.event.pull_request.number }}.smugglebuy.com"
@@ -87,3 +87,10 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
+      - name: Deploy to GitHub Pages 2
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          cname: smugglebuy.com
