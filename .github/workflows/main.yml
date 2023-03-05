@@ -51,7 +51,7 @@ jobs:
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
-          SUBDOMAIN: "test.smugglebuy.com"
+          SUBDOMAIN: "learnbypractice.org"
           # SUBDOMAIN: "pr-${{ github.event.pull_request.number }}.smugglebuy.com"
 
       - name: Set status
@@ -74,7 +74,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: "test.smugglebuy.com"
+      url: "learnbypractice.org"
       # url: |
       #   if [ github.event_name == 'pull_request' ]; then
       #     "https://pr-${{ github.event.pull_request.number }}.smugglebuy.com"
