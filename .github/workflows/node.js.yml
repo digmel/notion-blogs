@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "16.x"
+
       - name: Installing my packages
         run: |
           if [ -e yarn.lock ]; then
@@ -28,24 +29,23 @@ jobs:
           else
             npm i
           fi
+
       - name: Build
         run: |
-          npm run build && npm run export && touch ./out/.nojekyll
+          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
-      - name: Add CNAME file
-        if: github.event_name == 'pull_request'
-        run: |
-          echo "$CNAME" > CNAME
-        env:
-          CNAME: test.smugglebuy.com
+          CNAME: ${{ github.event.pull_request.head.sha }}.smugglebuy.com
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: public # The branch the action should deploy to.
-          FOLDER: out # The folder the action should deploy.
+          BRANCH: public
+          FOLDER: out
+          CNAME: ${{ env.CNAME }}
+
       - name: Set status
         if: github.event_name == 'pull_request'
         uses: EndBug/add-and-commit@v7.0.0
