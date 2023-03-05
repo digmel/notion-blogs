@@ -22,8 +22,8 @@ jobs:
       - name: Generate subdomain
         run: |
           sudo apt-get update && sudo apt-get install openssl
-          SUBDOMAIN="pr-$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 5).smugglebuy.com"
-          echo "Subdomain: $SUBDOMAIN"
+          SUBDOMAIN="$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 7).smugglebuy.com"
+          echo "Generated subdomain: $SUBDOMAIN"
 
       - name: Installing my packages
         run: |
@@ -41,14 +41,14 @@ jobs:
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
-          CNAME: ${{ github.event.pull_request.head.sha }}.smugglebuy.com
+          CNAME: $SUBDOMAIN
 
       - name: Deploy 🚀
         if: success()
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: deploy/pr-${{ github.event.pull_request.head.sha }}
+          BRANCH: deploy/pr-${{ github.event.pull_request.head.number }}
           FOLDER: out
           DOMAIN: ${{ env.CNAME }}
 
@@ -58,7 +58,7 @@ jobs:
         with:
           author_name: GitHub Actions
           author_email: actions@github.com
-          message: "CI status Preview: https://${{ github.event.pull_request.head.sha }}.smugglebuy.com"
+          message: "CI status Preview: https://${{ env.CNAME }}"
           add: CNAME
           signoff: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -68,5 +68,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
+          publish_branch: deploy/pr-${{ github.event.pull_request.head.number }}
           publish_dir: ./out
