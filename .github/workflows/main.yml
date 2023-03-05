@@ -1,4 +1,4 @@
-name: gh-pages-pipeline
+name: pipeline
 
 on:
   pull_request:
