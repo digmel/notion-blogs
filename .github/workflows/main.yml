@@ -1,4 +1,4 @@
-name: check-Dev-PR
+name: gh-pages-pipeline
 
 on:
   pull_request:
