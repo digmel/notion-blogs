@@ -2,8 +2,8 @@ import React from "react";
 
 export const Footer = () => {
   return (
-    <div className="py-6 border-t border-zinc-400 border-opacity-50 flex md:justify-start justify-center mx-6 md:mx-24">
-      <h1 className="text-zinc-400 text-sm md:text-base  font-extralight">
+    <div className="py-4 border-t border-primary border-opacity-50 flex md:justify-start justify-center mx-6 md:mx-24">
+      <h1 className="text-primary text-sm  font-extralight">
         © 2023 smugglebuy.com
       </h1>
     </div>
