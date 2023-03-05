@@ -21,8 +21,7 @@ jobs:
 
       - name: Generate subdomain
         run: |
-          subdomain=$("pr-$(openssl rand -hex 3 | tr -d '\n' | xxd -r -p | tr -dc 'a-z' | head -c 5).smugglebuy.com") &&
-          echo "Subdomain: $subdomain"
+          echo "Subdomain: "pr-$(openssl rand -hex 3 | tr -d '\n' | xxd -r -p | tr -dc 'a-z' | head -c 5).smugglebuy.com""
 
       - name: Installing my packages
         run: |
@@ -36,7 +35,7 @@ jobs:
 
       - name: Build
         run: |
-          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME && echo "Subdomain here too: $subdomain"
+          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
