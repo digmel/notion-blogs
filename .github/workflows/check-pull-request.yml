@@ -22,8 +22,8 @@ jobs:
       - name: Generate subdomain
         run: |
           sudo apt-get update && sudo apt-get install openssl
-          SUBDOMAIN="$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 7).smugglebuy.com"
-          echo "Generated subdomain: $SUBDOMAIN"
+        env:
+          SUBDOMAIN: "$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 7).smugglebuy.com"
 
       - name: Installing my packages
         run: |
@@ -37,7 +37,7 @@ jobs:
 
       - name: Build
         run: |
-          npm run build && npm run export && touch ./out/.nojekyll && echo $SUBDOMAIN > ./out/CNAME && echo "Generated subdomain here too: $SUBDOMAIN"
+          npm run build && npm run export && touch ./out/.nojekyll && echo ${{ env.SUBDOMAIN }} > ./out/CNAME && echo "Generated subdomain: ${{ env.SUBDOMAIN }}"
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: deploy/pr-${{ github.event.pull_request.number }}
           FOLDER: out
-          DOMAIN: $SUBDOMAIN
+          DOMAIN: ${{ env.SUBDOMAIN }}
 
       - name: Set status
         if: github.event_name == 'pull_request'
@@ -57,7 +57,7 @@ jobs:
         with:
           author_name: GitHub Actions
           author_email: actions@github.com
-          message: "CI status Preview: https://$SUBDOMAIN"
+          message: "CI status Preview: https://${{ env.SUBDOMAIN }}"
           add: CNAME
           signoff: true
           token: ${{ secrets.GITHUB_TOKEN }}
