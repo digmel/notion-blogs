@@ -14,7 +14,7 @@ export const Header = () => {
   };
 
   return (
-    <div className="py-2 md:px-24 flex justify-between items-center border-primary border-b border-opacity-10">
+    <div className="py-2 md:px-24 flex justify-between items-center border-primary border-b border-opacity-10 bg-light">
       <a className="md:scale-100 scale-75 -ml-3 md:-ml-0" onClick={goHome}>
         <Logo />
       </a>
