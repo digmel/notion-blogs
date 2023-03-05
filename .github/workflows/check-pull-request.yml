@@ -19,12 +19,6 @@ jobs:
         with:
           node-version: "16.x"
 
-      - name: Generate subdomain
-        run: |
-          subdomain=$(openssl rand -hex 5 | tr -d '\n')
-          subdomain=$(echo "$subdomain" | sed 's/[^a-zA-Z]/-/g')
-          echo "Subdomain: $subdomain"
-
       - name: Installing my packages
         run: |
           if [ -e yarn.lock ]; then
@@ -37,19 +31,23 @@ jobs:
 
       - name: Build
         run: |
-          npm run build && npm run export && touch ./out/.nojekyll && echo $CNAME > ./out/CNAME && echo "Subdomain here too: $subdomain"
+          sudo apt-get update && sudo apt-get install openssl &&
+          npm run build && npm run export && touch ./out/.nojekyll &&
+          echo ${{ env.SUBDOMAIN }} > ./out/CNAME &&
+          echo "Generated subdomain: ${{ env.SUBDOMAIN }}"
         env:
           NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
           NOTION_BLOG_DATABASE_ID: ${{ secrets.NOTION_BLOG_DATABASE_ID }}
-          CNAME: ${{ github.event.pull_request.head.sha }}.smugglebuy.com
+          SUBDOMAIN: "$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 7).smugglebuy.com"
 
       - name: Deploy 🚀
+        if: success()
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: deploy/pr-${{ github.event.pull_request.head.sha }}
+          BRANCH: deploy/pr-${{ github.event.pull_request.number }}
           FOLDER: out
-          CNAME: ${{ env.CNAME }}
+          DOMAIN: ${{ env.SUBDOMAIN }}
 
       - name: Set status
         if: github.event_name == 'pull_request'
@@ -57,7 +55,15 @@ jobs:
         with:
           author_name: GitHub Actions
           author_email: actions@github.com
-          message: "CI status Preview: https://${{ github.event.pull_request.head.sha }}.smugglebuy.com"
+          message: "CI status Preview: https://${{ env.SUBDOMAIN }}"
           add: CNAME
           signoff: true
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy Pages
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: deploy/pr-${{ github.event.pull_request.number }}
+          publish_dir: ./out
