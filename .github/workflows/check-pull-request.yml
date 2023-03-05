@@ -22,7 +22,7 @@ jobs:
       - name: Generate subdomain
         run: |
           sudo apt-get update && sudo apt-get install openssl
-          SUBDOMAIN="pr-$(openssl rand -hex 3 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 5).smugglebuy.com"
+          SUBDOMAIN="pr-$(openssl rand -hex 64 | xxd -r -p | tr 'A-F' 'a-f' | tr -dc 'a-z' | head -c 5).smugglebuy.com"
           echo "Subdomain: $SUBDOMAIN"
 
       - name: Installing my packages
@@ -44,6 +44,7 @@ jobs:
           CNAME: ${{ github.event.pull_request.head.sha }}.smugglebuy.com
 
       - name: Deploy 🚀
+        if: success()
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,3 +62,11 @@ jobs:
           add: CNAME
           signoff: true
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy Pages
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+          with:
+            personal_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_branch: gh-pages
+            publish_dir: ./out
