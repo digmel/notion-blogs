@@ -7,6 +7,7 @@ export const Header = () => {
   const router = useRouter();
 
   const goHome = () => {
+    setIsOpen(false);
     router.push("/");
   };
 

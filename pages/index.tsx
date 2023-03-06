@@ -18,7 +18,7 @@ export default function Home({ posts }: any) {
   return (
     <>
       <div className="min-h-screen">
-        <main className="max-w-5xl mx-auto relative">
+        <main className="max-w-4xl mx-auto relative">
           <div className="h-full pt-4 pb-16 mx-auto">
             <div className="flex items-center justify-start">
               <h1 className="text-2xl">Latest</h1>
