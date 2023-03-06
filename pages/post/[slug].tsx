@@ -2,10 +2,11 @@ import { GetStaticProps, InferGetStaticPropsType } from "next";
 import ReactMarkdown from "react-markdown";
 import Head from "next/head";
 import NotionService from "../../services/notionServices";
+import style from "../../styles/markdown.module.css";
 
 const Post = ({
-  markdown,
   post,
+  markdown,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
@@ -28,8 +29,10 @@ const Post = ({
       <div className="min-h-screen">
         <main className="max-w-5xl mx-auto relative">
           <div className="flex items-center justify-center">
-            <article className="prose">
-              <ReactMarkdown>{markdown}</ReactMarkdown>
+            <article className="max-w-prose">
+              <ReactMarkdown className={style.reactMarkDown}>
+                {markdown}
+              </ReactMarkdown>
             </article>
           </div>
         </main>

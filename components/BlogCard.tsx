@@ -15,7 +15,7 @@ export const BlogCard: FunctionComponent<BlogCardProps> = ({ post }) => {
       <div className="transition duration-300 hover:scale-105">
         <div
           key={post.title}
-          className="flex flex-col rounded-xl shadow-lg overflow-hidden"
+          className="flex flex-col rounded shadow-lg overflow-hidden"
         >
           <div className="flex-shrink-0">
             <img className="h-64 w-full object-fit" src={post.cover} alt="" />
