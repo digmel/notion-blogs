@@ -5,7 +5,7 @@ import { Layout } from "../components";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Layout title="The Best Deals!">
+      <Layout title="The Best Deals & Products">
         <Component {...pageProps} />
       </Layout>
     </>
