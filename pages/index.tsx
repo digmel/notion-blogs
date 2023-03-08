@@ -1,9 +1,9 @@
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import NotionService from "../services/notionServices";
 import { BlogPost } from "../@types/schema";
 import { BlogCard } from "../components";
 
-export const getServerSideProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const notionService = new NotionService();
   const posts = await notionService.getPublishedBlogPosts();
 
