@@ -54,9 +54,10 @@
 
 .reactMarkDown a {
     color: #0077cc;
-    text-decoration: none;
+    text-decoration: underline;
+    font-weight: normal;
 }
 
 .reactMarkDown a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
