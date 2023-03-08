@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-function Home({ posts }: any) {
+export default function Home({ posts }: any) {
   return (
     <>
       <div className="min-h-screen">
