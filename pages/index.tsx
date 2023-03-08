@@ -1,8 +1,9 @@
+import { GetServerSideProps } from "next";
 import NotionService from "../services/notionServices";
 import { BlogPost } from "../@types/schema";
 import { BlogCard } from "../components";
 
-export const getInitialProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const notionService = new NotionService();
   const posts = await notionService.getPublishedBlogPosts();
 
@@ -13,7 +14,7 @@ export const getInitialProps = async () => {
   };
 };
 
-export default function Home({ posts }: any) {
+function Home({ posts }: any) {
   return (
     <>
       <div className="min-h-screen">
