@@ -20,7 +20,8 @@ export const BlogCard: FunctionComponent<BlogCardProps> = ({ post }) => {
           <div className="flex-shrink-0">
             <img className="h-64 w-full object-fit" src={post.cover} alt="" />
           </div>
-          <div className="flex-1 bg-gray-50 pt-2 pb-6 px-4 flex flex-col justify-between">
+
+          <div className="flex-1 bg-gray-50 pt-2 pb-6 px-4 flex flex-col justify-between min-h-[240px]">
             <div className="flex-1">
               <span className="block mt-2">
                 <h4 className="text-xs font-medium text-gray-600">
@@ -36,18 +37,22 @@ export const BlogCard: FunctionComponent<BlogCardProps> = ({ post }) => {
               <span className="block mt-2">
                 <p className="text-sm text-gray-600">{post.description}</p>
               </span>
-
-              <span className="block mt-2 space-x-4">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag.id}
-                    className="bg-green-300 text-green-800 px-2 py-1 text-xs rounded-lg"
-                  >
-                    #{tag.name}
-                  </span>
-                ))}
-              </span>
             </div>
+
+            <span className="block mt-2 space-x-4">
+              {post.tags.map((tag, index) => (
+                <>
+                  {index < 4 && (
+                    <span
+                      key={tag.id}
+                      className="bg-green-200 text-green-800 px-2 py-1 text-xs rounded-lg"
+                    >
+                      #{tag.name}
+                    </span>
+                  )}
+                </>
+              ))}
+            </span>
           </div>
         </div>
       </div>

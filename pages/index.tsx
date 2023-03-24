@@ -1,20 +1,21 @@
-import { GetStaticProps } from "next";
-import NotionService from "../services/notionServices";
-import { BlogPost } from "../@types/schema";
+import React, { useEffect, useState } from "react";
+import { Client } from "@notionhq/client";
+import { GET_PUBLISHED_BLOGS_CONFIG } from "../constants";
+import { generateBlogCover } from "../helpers";
 import { BlogCard } from "../components";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const notionService = new NotionService();
-  const posts = await notionService.getPublishedBlogPosts();
+export default function Home({ blogs }: Record<string, any>) {
+  const [blogCards, setBlogCards] = useState([]);
 
-  return {
-    props: {
-      posts,
-    },
-  };
-};
+  useEffect(() => {
+    const cards = blogs.map((blog: unknown) => {
+      return generateBlogCover(blog);
+    });
 
-export default function Home({ posts }: any) {
+    setBlogCards(cards);
+    localStorage.setItem("posts", JSON.stringify(blogs));
+  }, []);
+
   return (
     <>
       <div className="min-h-screen">
@@ -24,7 +25,7 @@ export default function Home({ posts }: any) {
               <h1 className="text-2xl">Latest</h1>
             </div>
             <div className="mt-4 max-w-lg mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
-              {posts.map((post: BlogPost) => (
+              {blogCards.map((post: any) => (
                 <BlogCard key={post.id} post={post} />
               ))}
             </div>
@@ -33,4 +34,22 @@ export default function Home({ posts }: any) {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const notion = new Client({
+      auth: process.env.NOTION_ACCESS_TOKEN,
+    });
+
+    const res = await notion.databases.query(GET_PUBLISHED_BLOGS_CONFIG);
+
+    return {
+      props: {
+        blogs: res.results,
+      },
+    };
+  } catch ({ message }) {
+    throw new Error(`Error when get blogs data from notion: ${message}`);
+  }
 }
