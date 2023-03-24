@@ -36,7 +36,7 @@ export default function Home({ blogs }: Record<string, any>) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const notion = new Client({
       auth: process.env.NOTION_ACCESS_TOKEN,
