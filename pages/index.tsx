@@ -12,12 +12,12 @@ export default function Home({ data }: Record<string, any>) {
   return (
     <>
       <div className="min-h-screen">
-        <main className="max-w-4xl mx-auto relative">
-          <div className="h-full pt-4 pb-16 mx-auto">
+        <main className="flex justify-center">
+          <div className="h-full pt-4 pb-16">
             <div className="flex items-center justify-start">
               <h1 className="text-2xl">Latest</h1>
             </div>
-            <div className="mt-4 max-w-lg mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
+            <div className="mt-4 max-w-4xl grid gap-5 lg:grid-cols-2">
               {data.map((post: any) => (
                 <BlogCard key={post.id} post={post} />
               ))}
