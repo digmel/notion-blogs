@@ -49,7 +49,7 @@ const Blog = () => {
               blog?.blocks.map((block: any) => {
                 if (block.type === "paragraph") {
                   return (
-                    <div className="py-1 mx-4">
+                    <div className="py-1 mx-4" key={block.id}>
                       <p>{block.paragraph.text[0]?.plain_text}</p>
                     </div>
                   );
@@ -57,11 +57,12 @@ const Blog = () => {
 
                 if (block.type === "heading_3") {
                   return (
-                    <div className="py-1 mx-4">
+                    <div className="py-1 mx-4" key={block.id}>
                       <a
                         href={block.heading_3.text[0]?.href}
                         className="text-blue-600 font-semibold hover:underline"
                         target="_blank"
+                        rel="noreferrer"
                       >
                         {block.heading_3.text[0]?.plain_text}
                       </a>
@@ -71,7 +72,10 @@ const Blog = () => {
 
                 if (block.type === "image") {
                   return (
-                    <div className="flex-shrink-0 py-8 mx-4 flex justify-center">
+                    <div
+                      className="flex-shrink-0 py-8 mx-4 flex justify-center"
+                      key={block.id}
+                    >
                       <img
                         className="object-fit w-3/4"
                         src={block.image.file.url}
