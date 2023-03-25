@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Logo, SearchIcon } from "../icons";
+import * as JsSearch from "js-search";
+import { BlogCard } from "./BlogCard";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchResult, setSearchResult] = useState<any[]>([]);
+  const [searchInput, setSearchInput] = useState<any>("");
   const router = useRouter();
 
   const goHome = () => {
@@ -28,12 +32,28 @@ export const Header = () => {
     return event;
   };
 
+  const search = new JsSearch.Search("isbn");
+  search.addIndex("title");
+  search.addIndex("description");
+  search.addIndex("tags");
+
   useEffect(() => {
     if (typeof document !== "undefined") {
       document.addEventListener("keydown", handleKeyboardEvent);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    const resJSON = localStorage.getItem("@blogs-data");
+    const cachedData = resJSON && JSON.parse(resJSON);
+
+    search.addDocuments(cachedData);
+
+    const _searchResult = search.search(searchInput);
+    if (_searchResult.length > 0 && searchInput.length > 0) {
+      setSearchResult(_searchResult);
+    } else {
+      setSearchResult([]);
+    }
+  }, [searchInput]);
 
   return (
     <>
@@ -52,14 +72,24 @@ export const Header = () => {
           <SearchIcon />
         </a>
       </div>
+
       {isOpen && (
-        <div className="bg-light flex justify-start items-start md:justify-center min-h-screen py-8 px-8">
+        <div className="bg-light flex flex-col justify-start items-center min-h-screen py-8 px-8">
           <input
             placeholder="Search..."
             onSubmit={toggleMenu}
+            onChange={(e: any) => setSearchInput(e.target.value)}
             autoFocus
-            className={`h-10 w-80 md:h-16 md:w-96 border-b outline-none border-b-primary border-opacity-30 focus:border-b-primary bg-transparent z-0 px-4`}
+            className={`h-10 w-80 md:h-16 md:w-96 border-b outline-none border-b-primary border-opacity-30 focus:border-b-primary bg-transparent px-4`}
           />
+
+          {searchResult.length > 0 && (
+            <div className="mt-8 md:mt-12 max-w-4xl grid gap-5 lg:grid-cols-2">
+              {searchResult.map((post: any) => (
+                <BlogCard key={post.id} post={post} />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </>
