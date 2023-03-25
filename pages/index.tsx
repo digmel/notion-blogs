@@ -10,22 +10,21 @@ export default function Home({ data }: Record<string, any>) {
   }, []);
 
   return (
-    <>
-      <div className="min-h-screen">
-        <main className="flex justify-center">
-          <div className="h-full pt-4 pb-16">
-            <div className="flex items-center justify-start">
-              <h1 className="text-2xl">Latest</h1>
-            </div>
-            <div className="mt-4 max-w-4xl grid gap-5 lg:grid-cols-2">
-              {data.map((post: any) => (
-                <BlogCard key={post.id} post={post} />
-              ))}
-            </div>
+    <div className="min-h-screen mx-8">
+      <main className="flex justify-center">
+        <div className="h-full pt-4 pb-16">
+          <div className="flex items-center justify-start mb-4">
+            <h1 className="text-2xl">Latest</h1>
           </div>
-        </main>
-      </div>
-    </>
+
+          <div className="md:max-w-4xl max-w-none grid gap-5 md:grid-cols-2">
+            {data.map((post: any) => (
+              <BlogCard key={post.id} post={post} />
+            ))}
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
 
