@@ -1,0 +1,119 @@
+import { GetStaticProps } from "next";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import { Client } from "@notionhq/client";
+import { GET_PUBLISHED_BLOGS_CONFIG } from "../../constants";
+import { useRouter } from "next/router";
+
+const Blog = () => {
+  const router = useRouter();
+  const [blog, setBlog] = useState<any>({});
+
+  useEffect(() => {
+    const resJSON = localStorage.getItem("@blogs-data");
+    const cachedData = resJSON && JSON.parse(resJSON);
+
+    const currentBlog = cachedData.find(
+      (blog: any) => blog.slug === router.query.slug
+    );
+
+    setBlog(currentBlog);
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <title>{blog.title}</title>
+        <meta
+          name={"description"}
+          title={"description"}
+          content={blog.description}
+        />
+        <meta name={"og:title"} title={"og:title"} content={blog.title} />
+        <meta
+          name={"og:description"}
+          title={"og:description"}
+          content={blog.description}
+        />
+        <meta name={"og:image"} title={"og:image"} content={blog.cover} />
+      </Head>
+
+      <div className="min-h-screen mb-32">
+        <main className="flex items-center flex-col">
+          <h1 className="mx-8 py-4 text-center font-bold self-center text-primary md:text-2xl text-xl">
+            {blog.title}
+          </h1>
+
+          <article className="md:w-3/5">
+            {blog?.blocks &&
+              blog?.blocks.map((block: any) => {
+                if (block.type === "paragraph") {
+                  return (
+                    <div className="py-1 mx-4">
+                      <p>{block.paragraph.text[0]?.plain_text}</p>
+                    </div>
+                  );
+                }
+
+                if (block.type === "heading_3") {
+                  return (
+                    <div className="py-1 mx-4">
+                      <a
+                        href={block.heading_3.text[0]?.href}
+                        className="text-blue-600 font-semibold hover:underline"
+                        target="_blank"
+                      >
+                        {block.heading_3.text[0]?.plain_text}
+                      </a>
+                    </div>
+                  );
+                }
+
+                if (block.type === "image") {
+                  return (
+                    <div className="flex-shrink-0 py-8 mx-4 flex justify-center">
+                      <img
+                        className="object-fit w-3/4"
+                        src={block.image.file.url}
+                        alt=""
+                      />
+                    </div>
+                  );
+                }
+              })}
+          </article>
+        </main>
+      </div>
+    </>
+  );
+};
+
+export const getStaticProps: GetStaticProps = () => {
+  // This empty function is required for getStaticPaths.
+  return {
+    props: {},
+  };
+};
+
+export async function getStaticPaths() {
+  try {
+    const notion = new Client({
+      auth: process.env.NOTION_ACCESS_TOKEN,
+    });
+
+    const res = await notion.databases.query(GET_PUBLISHED_BLOGS_CONFIG);
+
+    const paths = res.results.map((blog: any) => {
+      return `/blog/${blog.properties.Slug.formula.string}`;
+    });
+
+    return {
+      paths,
+      fallback: false,
+    };
+  } catch ({ message }) {
+    throw new Error(`Error when generate blog static paths: ${message}`);
+  }
+}
+
+export default Blog;

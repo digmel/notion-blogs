@@ -11,7 +11,7 @@ dayjs.extend(localizedFormat);
 
 export const BlogCard: FunctionComponent<BlogCardProps> = ({ post }) => {
   return (
-    <Link href={`/post/${post.slug}`}>
+    <Link href={`/blog/${post.slug}`}>
       <div className="transition duration-300 md:hover:scale-105">
         <div
           key={post.title}

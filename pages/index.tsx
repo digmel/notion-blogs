@@ -1,19 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Client } from "@notionhq/client";
 import { GET_PUBLISHED_BLOGS_CONFIG } from "../constants";
-import { generateBlogCover } from "../helpers";
+import { formatBlogsData } from "../helpers";
 import { BlogCard } from "../components";
 
-export default function Home({ blogs }: Record<string, any>) {
-  const [blogCards, setBlogCards] = useState([]);
-
+export default function Home({ data }: Record<string, any>) {
   useEffect(() => {
-    const cards = blogs.map((blog: unknown) => {
-      return generateBlogCover(blog);
-    });
-
-    setBlogCards(cards);
-    localStorage.setItem("posts", JSON.stringify(blogs));
+    localStorage.setItem("@blogs-data", JSON.stringify(data));
   }, []);
 
   return (
@@ -25,7 +18,7 @@ export default function Home({ blogs }: Record<string, any>) {
               <h1 className="text-2xl">Latest</h1>
             </div>
             <div className="mt-4 max-w-lg mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
-              {blogCards.map((post: any) => (
+              {data.map((post: any) => (
                 <BlogCard key={post.id} post={post} />
               ))}
             </div>
@@ -37,16 +30,35 @@ export default function Home({ blogs }: Record<string, any>) {
 }
 
 export async function getStaticProps() {
+  const allBlocks: any[] = [];
+  const blogPromises: any[] = [];
   try {
     const notion = new Client({
       auth: process.env.NOTION_ACCESS_TOKEN,
     });
 
-    const res = await notion.databases.query(GET_PUBLISHED_BLOGS_CONFIG);
+    // Get published blogs
+    const publishedBlogs = await notion.databases.query(
+      GET_PUBLISHED_BLOGS_CONFIG
+    );
+
+    // Get all blogs data for caching
+    publishedBlogs.results.forEach(async (blog: any) => {
+      const blocks: any = notion.blocks.children.list({
+        block_id: blog.id,
+      });
+
+      blogPromises.push(blocks);
+    });
+
+    await Promise.all(blogPromises).then((res) => allBlocks.push(res));
+
+    const data = formatBlogsData(publishedBlogs.results, allBlocks[0]);
 
     return {
       props: {
-        blogs: res.results,
+        blogs: publishedBlogs.results,
+        data: data,
       },
     };
   } catch ({ message }) {
