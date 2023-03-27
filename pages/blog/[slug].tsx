@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Client } from "@notionhq/client";
 import { GET_PUBLISHED_BLOGS_CONFIG } from "../../constants";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Blog = () => {
   const router = useRouter();
@@ -38,13 +39,13 @@ const Blog = () => {
         <meta name={"og:image"} title={"og:image"} content={blog.cover} />
       </Head>
 
-      <div className="min-h-screen mb-32">
-        <main className="flex items-center flex-col">
-          <h1 className="mx-8 py-4 text-center font-bold self-center text-primary md:text-2xl text-xl">
+      <div className="min-h-screen mb-32 w-screen">
+        <main className="flex flex-col justify-center items-center">
+          <h1 className="mx-8 py-4 text-center max-w-[800px] font-bold text-primary md:text-2xl text-xl">
             {blog.title}
           </h1>
 
-          <article className="md:w-3/5">
+          <article className="max-w-[800px]">
             {blog?.blocks &&
               blog?.blocks.map((block: any) => {
                 if (block.type === "paragraph") {
@@ -77,16 +78,20 @@ const Blog = () => {
                       key={block.id}
                     >
                       {block.image.type === "file" && (
-                        <img
-                          className="object-fit w-3/4 rounded-lg"
+                        <Image
+                          className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
                           src={block.image.file.url}
+                          width={800}
+                          height={400}
                           alt=""
                         />
                       )}
                       {block.image.type === "external" && (
-                        <img
-                          className="object-fit w-3/4 rounded-lg"
+                        <Image
+                          className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
                           src={block.image.external?.url}
+                          width={800}
+                          height={400}
                           alt=""
                         />
                       )}
