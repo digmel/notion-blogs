@@ -76,11 +76,20 @@ const Blog = () => {
                       className="flex-shrink-0 py-8 mx-4 flex justify-center"
                       key={block.id}
                     >
-                      <img
-                        className="object-fit w-3/4"
-                        src={block.image.file.url}
-                        alt=""
-                      />
+                      {block.image.type === "file" && (
+                        <img
+                          className="object-fit w-3/4 rounded-lg"
+                          src={block.image.file.url}
+                          alt=""
+                        />
+                      )}
+                      {block.image.type === "external" && (
+                        <img
+                          className="object-fit w-3/4 rounded-lg"
+                          src={block.image.external?.url}
+                          alt=""
+                        />
+                      )}
                     </div>
                   );
                 }

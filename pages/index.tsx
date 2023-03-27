@@ -52,11 +52,13 @@ export async function getStaticProps() {
 
     await Promise.all(blogPromises).then((res) => allBlocks.push(res));
 
-    const data = formatBlogsData(publishedBlogs.results, allBlocks[0]);
+    const data =
+      publishedBlogs.results.length > 0
+        ? formatBlogsData(publishedBlogs.results, allBlocks[0])
+        : [];
 
     return {
       props: {
-        blogs: publishedBlogs.results,
         data: data,
       },
     };
