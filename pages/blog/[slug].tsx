@@ -21,6 +21,20 @@ const Blog = () => {
     setBlog(currentBlog);
   }, []);
 
+  const getImage = (imageBlock: any) => {
+    let res = "";
+    switch (imageBlock.image.type) {
+      case "file":
+        res = imageBlock.image.file?.url;
+        break;
+      case "external":
+        res = imageBlock.image.external?.url;
+        break;
+    }
+
+    return res;
+  };
+
   return (
     <>
       <Head>
@@ -72,29 +86,19 @@ const Blog = () => {
                 }
 
                 if (block.type === "image") {
+                  const imageSrc = getImage(block);
                   return (
                     <div
                       className="flex-shrink-0 py-8 mx-4 flex justify-center"
                       key={block.id}
                     >
-                      {block.image.type === "file" && (
-                        <Image
-                          className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
-                          src={block.image.file.url}
-                          width={800}
-                          height={400}
-                          alt=""
-                        />
-                      )}
-                      {block.image.type === "external" && (
-                        <Image
-                          className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
-                          src={block.image.external?.url}
-                          width={800}
-                          height={400}
-                          alt=""
-                        />
-                      )}
+                      <Image
+                        className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
+                        src={imageSrc}
+                        width={800}
+                        height={400}
+                        alt=""
+                      />
                     </div>
                   );
                 }
