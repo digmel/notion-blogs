@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Client } from "@notionhq/client";
 import { GET_PUBLISHED_BLOGS_CONFIG } from "../../constants";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Blog = () => {
   const router = useRouter();
@@ -19,6 +20,20 @@ const Blog = () => {
 
     setBlog(currentBlog);
   }, []);
+
+  const getImage = (imageBlock: any) => {
+    let res = "";
+    switch (imageBlock.image.type) {
+      case "file":
+        res = imageBlock.image.file?.url;
+        break;
+      case "external":
+        res = imageBlock.image.external?.url;
+        break;
+    }
+
+    return res;
+  };
 
   return (
     <>
@@ -38,13 +53,13 @@ const Blog = () => {
         <meta name={"og:image"} title={"og:image"} content={blog.cover} />
       </Head>
 
-      <div className="min-h-screen mb-32">
-        <main className="flex items-center flex-col">
-          <h1 className="mx-8 py-4 text-center font-bold self-center text-primary md:text-2xl text-xl">
+      <div className="min-h-screen mb-32 w-screen">
+        <main className="flex flex-col justify-center items-center">
+          <h1 className="mx-8 py-4 text-center max-w-[800px] font-bold text-primary md:text-2xl text-xl">
             {blog.title}
           </h1>
 
-          <article className="md:w-3/5">
+          <article className="max-w-[800px]">
             {blog?.blocks &&
               blog?.blocks.map((block: any) => {
                 if (block.type === "paragraph") {
@@ -71,14 +86,17 @@ const Blog = () => {
                 }
 
                 if (block.type === "image") {
+                  const imageSrc = getImage(block);
                   return (
                     <div
                       className="flex-shrink-0 py-8 mx-4 flex justify-center"
                       key={block.id}
                     >
-                      <img
-                        className="object-fit w-3/4"
-                        src={block.image.file.url}
+                      <Image
+                        className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
+                        src={imageSrc}
+                        width={800}
+                        height={400}
                         alt=""
                       />
                     </div>

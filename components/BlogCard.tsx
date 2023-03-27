@@ -42,7 +42,7 @@ export const BlogCard: FunctionComponent<BlogCardProps> = ({ post }) => {
             <span className="block mt-2 space-x-4">
               {post.tags.map((tag, index) => (
                 <>
-                  {index < 4 && (
+                  {index < 3 && (
                     <span
                       key={tag.id}
                       className="bg-green-200 text-green-800 px-2 py-1 text-xs rounded-lg"
