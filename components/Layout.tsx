@@ -20,7 +20,7 @@ export const Layout = ({ children, title }: TLayout) => {
         <Header />
       </div>
 
-      <div className="flex-grow w-screen overflow-scroll px-4 pt-16">
+      <div className="flex-grow w-screen overflow-scroll pt-16">
         {children}
         <Footer />
       </div>
