@@ -39,7 +39,7 @@ const imageFormatter = async () => {
 
     // Output
     sharpImage.toFile(
-      `./public/assets/${OUTPUT_IMAGE_NAME}.webp`,
+      `./out/assets/${OUTPUT_IMAGE_NAME}.webp`,
       (error, info) => {
         error && console.log("Error when writing file:", error);
         console.log("Output file details:", info);
