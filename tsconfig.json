@@ -19,8 +19,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "scripts/generateAssets.js",
-    "scripts/generateAssets.js"
+    "scripts/generateAssets.mjs",
+    "scripts/generateAssets.mjs"
   ],
   "exclude": ["node_modules"]
 }
