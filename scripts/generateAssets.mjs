@@ -1,8 +1,7 @@
 import fs from "fs";
 import fetch from "node-fetch";
 import sharp from "sharp";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import path from "path";
 
 const imageUrl =
   "https://images.unsplash.com/photo-1516307318288-46d4194fe79e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb";
@@ -40,20 +39,21 @@ const imageFormatter = async () => {
       effort: 6,
     });
 
-    const filename = fileURLToPath(import.meta.url);
-    console.log("root", dirname(filename));
+    console.log("project dir", process.cwd());
 
-    if (!fs.existsSync("/assets")) {
-      fs.mkdirSync("/assets");
-      console.log("assets file is created");
-    }
-
-    if (fs.existsSync("/assets")) {
-      sharpImage.toFile(`./assets/${OUTPUT_IMAGE_NAME}.webp`, (error, info) => {
-        error && console.log("Error when writing file:", error);
-        console.log("Output file details:", info);
+    try {
+      await fs.readdir(path.join(process.cwd(), "/assets"));
+    } catch (error) {
+      await fs.mkdir(path.join(process.cwd(), "/assets"), (error, info) => {
+        error && console.log("Error when creating dir:", error);
+        console.log("assets dir created:", info);
       });
     }
+
+    sharpImage.toFile(`./assets/${OUTPUT_IMAGE_NAME}.webp`, (error, info) => {
+      error && console.log("Error when writing file:", error);
+      console.log("Output file details:", info);
+    });
   } catch ({ message }) {
     throw new Error(`Error from imageFormatter: ${message}`);
   }
