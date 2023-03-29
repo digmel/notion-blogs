@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && node ./scripts/generateAssets.mjs",
-    "export": "next build && next export",
+    "export": "next build && node ./scripts/generateAssets.mjs && next export",
     "start": "next start",
     "generate-assets": "node ./scripts/generateAssets.mjs"
   },
