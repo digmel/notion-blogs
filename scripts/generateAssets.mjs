@@ -39,11 +39,9 @@ const imageFormatter = async () => {
       effort: 6,
     });
 
-    console.log("project dir", process.cwd());
+    const targetPath = process.cwd() + "/assets";
 
-    try {
-      await fs.readdir(path.join(process.cwd(), "/assets"));
-    } catch (error) {
+    if (!fs.existsSync(targetPath)) {
       await fs.mkdir(path.join(process.cwd(), "/assets"), (error, info) => {
         error && console.log("Error when creating dir:", error);
         console.log("assets dir created:", info);
