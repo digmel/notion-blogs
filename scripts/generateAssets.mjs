@@ -38,13 +38,10 @@ const imageFormatter = async () => {
     });
 
     // Output
-    sharpImage.toFile(
-      `./out/assets/${OUTPUT_IMAGE_NAME}.webp`,
-      (error, info) => {
-        error && console.log("Error when writing file:", error);
-        console.log("Output file details:", info);
-      }
-    );
+    sharpImage.toFile(`./assets/${OUTPUT_IMAGE_NAME}.webp`, (error, info) => {
+      error && console.log("Error when writing file:", error);
+      console.log("Output file details:", info);
+    });
   } catch ({ message }) {
     throw new Error(`Error from imageFormatter: ${message}`);
   }
