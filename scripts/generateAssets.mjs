@@ -1,3 +1,4 @@
+import fs from "fs";
 import fetch from "node-fetch";
 import sharp from "sharp";
 
@@ -38,10 +39,18 @@ const imageFormatter = async () => {
     });
 
     // Output
-    sharpImage.toFile(`./assets/${OUTPUT_IMAGE_NAME}.webp`, (error, info) => {
-      error && console.log("Error when writing file:", error);
-      console.log("Output file details:", info);
-    });
+    if (!fs.existsSync("./out/assets")) {
+      fs.mkdirSync("./out/assets");
+      console.log("assets file is created");
+    }
+
+    sharpImage.toFile(
+      `./out/assets/${OUTPUT_IMAGE_NAME}.webp`,
+      (error, info) => {
+        error && console.log("Error when writing file:", error);
+        console.log("Output file details:", info);
+      }
+    );
   } catch ({ message }) {
     throw new Error(`Error from imageFormatter: ${message}`);
   }
