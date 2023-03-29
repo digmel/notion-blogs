@@ -2,13 +2,12 @@
   "name": "web-app-smugglebuy-com",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node ./scripts/generateAssets.js",
+    "build": "next build && node ./scripts/generateAssets.mjs",
     "export": "next build && next export",
     "start": "next start",
-    "generate-assets": "node ./scripts/generateAssets.js"
+    "generate-assets": "node ./scripts/generateAssets.mjs"
   },
   "dependencies": {
     "@notionhq/client": "^0.4.12",
