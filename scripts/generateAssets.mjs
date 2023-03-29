@@ -1,7 +1,8 @@
 import fs from "fs";
 import fetch from "node-fetch";
 import sharp from "sharp";
-import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 const imageUrl =
   "https://images.unsplash.com/photo-1516307318288-46d4194fe79e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb";
@@ -39,16 +40,16 @@ const imageFormatter = async () => {
       effort: 6,
     });
 
-    Output;
+    const filename = fileURLToPath(import.meta.url);
+    console.log("root", dirname(filename));
+
     if (!fs.existsSync("/assets")) {
       fs.mkdirSync("/assets");
       console.log("assets file is created");
     }
 
-    console.log("root", path.dirname("out"));
-
     if (fs.existsSync("/assets")) {
-      sharpImage.toFile(`/assets/${OUTPUT_IMAGE_NAME}.webp`, (error, info) => {
+      sharpImage.toFile(`./assets/${OUTPUT_IMAGE_NAME}.webp`, (error, info) => {
         error && console.log("Error when writing file:", error);
         console.log("Output file details:", info);
       });
