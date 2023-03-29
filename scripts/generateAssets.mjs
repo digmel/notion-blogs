@@ -39,19 +39,25 @@ const imageFormatter = async () => {
       effort: 6,
     });
 
-    const targetPath = process.cwd() + "/assets";
+    const targetPath = process.cwd() + "/public/assets";
 
     if (!fs.existsSync(targetPath)) {
-      await fs.mkdir(path.join(process.cwd(), "/assets"), (error, info) => {
-        error && console.log("Error when creating dir:", error);
-        console.log("assets dir created:", info);
-      });
+      await fs.mkdir(
+        path.join(process.cwd(), "/public/assets"),
+        (error, info) => {
+          error && console.log("Error when creating dir:", error);
+          console.log("assets dir created:", info);
+        }
+      );
     }
 
-    sharpImage.toFile(`./assets/${OUTPUT_IMAGE_NAME}.webp`, (error, info) => {
-      error && console.log("Error when writing file:", error);
-      console.log("Output file details:", info);
-    });
+    sharpImage.toFile(
+      `./public/assets/${OUTPUT_IMAGE_NAME}.webp`,
+      (error, info) => {
+        error && console.log("Error when writing file:", error);
+        console.log("Output file details:", info);
+      }
+    );
   } catch ({ message }) {
     throw new Error(`Error from imageFormatter: ${message}`);
   }
