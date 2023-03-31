@@ -21,20 +21,6 @@ const Blog = () => {
     setBlog(currentBlog);
   }, []);
 
-  const getImage = (imageBlock: any) => {
-    let res = "";
-    switch (imageBlock.image.type) {
-      case "file":
-        res = imageBlock.image.file?.url;
-        break;
-      case "external":
-        res = imageBlock.image.external?.url;
-        break;
-    }
-
-    return res;
-  };
-
   return (
     <>
       <Head>
@@ -86,7 +72,6 @@ const Blog = () => {
                 }
 
                 if (block.type === "image") {
-                  const imageSrc = getImage(block);
                   return (
                     <div
                       className="flex-shrink-0 py-8 mx-4 flex justify-center"
@@ -94,7 +79,7 @@ const Blog = () => {
                     >
                       <Image
                         className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
-                        src={imageSrc}
+                        src={`assets/${block.id}.webp` ?? ""}
                         width={800}
                         height={400}
                         alt=""

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Client } from "@notionhq/client";
 import { GET_PUBLISHED_BLOGS_CONFIG } from "../constants";
-import { formatBlogsData } from "../helpers";
+import { generateAssets } from "../scripts/generateAssets";
 import { BlogCard } from "../components";
 
 export default function Home({ data }: Record<string, any>) {
@@ -52,10 +52,7 @@ export async function getStaticProps() {
 
     await Promise.all(blogPromises).then((res) => allBlocks.push(res));
 
-    const data =
-      publishedBlogs.results.length > 0
-        ? formatBlogsData(publishedBlogs.results, allBlocks[0])
-        : [];
+    const data = generateAssets(publishedBlogs.results, allBlocks[0]);
 
     return {
       props: {
