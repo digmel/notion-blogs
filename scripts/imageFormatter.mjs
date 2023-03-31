@@ -18,19 +18,16 @@ export const imageFormatter = async (id, imageUrl, width, height) => {
 
     // Resize
     sharpImage.resize({
-      width: Math.round(height / aspectRatio),
-      height: Math.round(width / aspectRatio),
+      width: Math.round(width / aspectRatio),
+      height: Math.round(height / aspectRatio),
       fit: "outside",
     });
 
     // Format
-    sharpImage.webp();
-    // sharpImage.webp({
-    //   quality: 100,
-    //   lossless: true,
-    //   smartSubsample: true,
-    //   effort: 6,
-    // });
+    sharpImage.webp({
+      quality: 100,
+      smartSubsample: true,
+    });
 
     const targetPath = process.cwd() + "/public/assets";
 

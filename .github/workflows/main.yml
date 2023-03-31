@@ -7,6 +7,7 @@ on:
   push:
     branches: [main]
   schedule:
+    - cron: "0 * * * *"
     - cron: "*/10 * * * *"
 
 permissions:
@@ -22,7 +23,6 @@ jobs:
   # Build the App
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
