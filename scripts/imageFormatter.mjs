@@ -24,12 +24,13 @@ export const imageFormatter = async (id, imageUrl, width, height) => {
     });
 
     // Format
-    sharpImage.webp({
-      quality: 100,
-      lossless: true,
-      smartSubsample: true,
-      effort: 6,
-    });
+    sharpImage.webp();
+    // sharpImage.webp({
+    //   quality: 100,
+    //   lossless: true,
+    //   smartSubsample: true,
+    //   effort: 6,
+    // });
 
     const targetPath = process.cwd() + "/public/assets";
 
