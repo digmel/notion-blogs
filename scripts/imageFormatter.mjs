@@ -18,8 +18,8 @@ export const imageFormatter = async (id, imageUrl, width, height) => {
 
     // Resize
     sharpImage.resize({
-      width: Math.round(width / aspectRatio),
-      height: Math.round(height / aspectRatio),
+      width: Math.round(height / aspectRatio),
+      height: Math.round(width / aspectRatio),
       fit: "outside",
     });
 
