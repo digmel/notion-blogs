@@ -19,8 +19,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "scripts/generateAssets.mjs",
-    "scripts/generateAssets.mjs"
+    "scripts/imageFormatter.mjs",
+    "scripts/imageFormatter.mjs"
   ],
   "exclude": ["node_modules"]
 }

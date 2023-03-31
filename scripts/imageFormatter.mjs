@@ -3,15 +3,7 @@ import fetch from "node-fetch";
 import sharp from "sharp";
 import path from "path";
 
-const imageUrl =
-  "https://images.unsplash.com/photo-1516307318288-46d4194fe79e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb";
-
-const OUTPUT_IMAGE_NAME = "testImage-output";
-
-const TARGET_WIDTH = 800;
-const TARGET_HEIGHT = 400;
-
-const imageFormatter = async () => {
+export const imageFormatter = async (id, imageUrl, width, height) => {
   try {
     // Fetch image buffer from url
     const res = await fetch(imageUrl);
@@ -26,8 +18,8 @@ const imageFormatter = async () => {
 
     // Resize
     sharpImage.resize({
-      width: Math.round(TARGET_WIDTH / aspectRatio),
-      height: Math.round(TARGET_HEIGHT / aspectRatio),
+      width: Math.round(width / aspectRatio),
+      height: Math.round(height / aspectRatio),
       fit: "outside",
     });
 
@@ -51,16 +43,11 @@ const imageFormatter = async () => {
       );
     }
 
-    sharpImage.toFile(
-      `./public/assets/${OUTPUT_IMAGE_NAME}.webp`,
-      (error, info) => {
-        error && console.log("Error when writing file:", error);
-        console.log("Output file details:", info);
-      }
-    );
+    sharpImage.toFile(`./public/assets/${id}.webp`, (error, info) => {
+      error && console.log("Error when writing file:", error);
+      console.log("Output file details:", info);
+    });
   } catch ({ message }) {
     throw new Error(`Error from imageFormatter: ${message}`);
   }
 };
-
-imageFormatter();
