@@ -17,7 +17,7 @@ export default function Home({ data }: Record<string, any>) {
             <h1 className="text-2xl">Latest</h1>
           </div>
 
-          <div className=" max-w-none grid gap-9 md:grid-cols-3">
+          <div className="max-w-none grid gap-9 md:grid-cols-3">
             {data.map((post: any) => (
               <BlogCard key={post.id} post={post} />
             ))}
