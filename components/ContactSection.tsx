@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TextInput } from "./TextInput";
 import { Text } from "./Text";
-import Image from "next/image";
 import { Button } from "./Button";
 // import { EmailIcon, FacebookIcon, PhoneIcon, WhatsappIcon } from "../icons";
 
@@ -40,43 +39,39 @@ export const ContactSection = () => {
   return (
     <div
       id="contact-form"
-      className="bg-section bg-opacity-20 flex md:flex-row flex-col items-center justify-center md:py-16 md:mt-40 mt-24 pt-8 pb-12"
+      className="shadow-sm rounded-3xl shadow-gray-300 flex md:flex-row flex-col items-center justify-center"
     >
-      <div className="md:mb-12 md:mx-6 ml-2 mr-6 md:ml-0 md:mr-0">
-        <Image
-          src="/assets/contactCover.png"
-          width={600}
-          height={600}
-          alt="1"
-          quality={100}
-        />
-      </div>
+      <div className="flex flex-col items-start rounded-2xl md:px-32 md:w-fit w-full py-16">
+        <Text variant="headline" className="text-gray-600">
+          Contact us!
+        </Text>
 
-      <div className="flex flex-col items-start md:py-16 bg-white rounded-2xl md:px-32 md:w-fit w-full px-6 md:-ml-12 -mt-8 md:-mt-0 py-8 ">
-        <Text variant="title">დაგვიკავშირდით!</Text>
-
-        <div className="flex flex-col items-start md:mt-12 mt-8 justify-center">
+        <div className="flex flex-col items-start md:mt-12 mt-8 justify-start">
           <TextInput
-            label="სახელი"
-            className="md:mb-6 mb-5"
+            label="Name"
+            className="md:mb-6 mb-5 text-start"
             onChange={(e: any) => setName(e.target.value)}
             value={name}
           />
           <TextInput
-            label="ელ-ფოსტა"
-            className="md:mb-6 mb-5"
+            label="Email Address"
+            className="md:mb-6 mb-5 text-start"
             onChange={(e: any) => setEmail(e.target.value)}
             value={email}
           />
           <TextInput
-            label="მესიჯი"
+            label="Message"
             variant="textarea"
-            className="mb-6"
+            className="mb-6 text-start"
             onChange={(e: any) => setMessage(e.target.value)}
             value={message}
           />
 
-          <Button label="გაგზავნა" onClick={sendEmail} />
+          <Button
+            label="Submit"
+            className="bg-sky-100 rounded"
+            onClick={sendEmail}
+          />
         </div>
       </div>
     </div>

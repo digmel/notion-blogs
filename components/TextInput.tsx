@@ -26,7 +26,7 @@ export const TextInput = ({
     <>
       <div className={className}>
         {label && (
-          <h1 className="text-opacity-70 font-normal md:text-base text-sm text-blue-400 pb-2 ">
+          <h1 className="text-opacity-70 font-normal md:text-base text-sm text-gray-500 pb-2 ">
             {label}
           </h1>
         )}

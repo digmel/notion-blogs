@@ -15,7 +15,7 @@ export const generateAssets = (publishedBlogs: any, allBlocks: any) => {
         break;
     }
 
-    imageFormatter(blog.id, _imageSrc, 400, 300);
+    // imageFormatter(blog.id, _imageSrc, 400, 300);
 
     // Format blog images
     allBlocks[index]?.results.forEach((block: any) => {
@@ -30,7 +30,7 @@ export const generateAssets = (publishedBlogs: any, allBlocks: any) => {
             break;
         }
 
-        imageFormatter(block.id, _imageSrc, 800, 400);
+        // imageFormatter(block.id, _imageSrc, 800, 400);
       }
     });
 
