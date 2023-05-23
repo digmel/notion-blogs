@@ -1,6 +1,6 @@
 import React from "react";
 import { usePlatform } from "../hooks";
-import { Logo } from "../icons";
+import { LinkedinIcon, Logo, TwitterIcon } from "../icons";
 import { Text } from "./Text";
 
 export const Footer = () => {
@@ -20,26 +20,48 @@ export const Footer = () => {
       </div>
 
       {!isMobile && (
-        <div className="">
+        <div className="flex flex-row w-full justify-evenly">
           <div className="gap-4 flex flex-col">
             <a href={"/"} rel="noreferrer">
-              <Text variant="body">Home</Text>
+              <Text variant="link" className="text-gray-500">
+                Home
+              </Text>
             </a>
 
             <a href={"/contact"} rel="noreferrer">
-              <Text variant="body">Contact</Text>
+              <Text variant="link" className="text-gray-500">
+                Contact
+              </Text>
+            </a>
+          </div>
+
+          <div className="gap-4 flex flex-col">
+            <a
+              href={"/"}
+              rel="noreferrer"
+              target="_blank"
+              className="flex flex-row gap-2"
+            >
+              <TwitterIcon />
+              <Text variant="link" className="text-gray-500">
+                Twitter
+              </Text>
+            </a>
+
+            <a
+              href={"https://www.linkedin.com/company/smugglebuy/"}
+              rel="noreferrer"
+              target="_blank"
+              className="flex flex-row gap-2"
+            >
+              <LinkedinIcon />
+              <Text variant="link" className="text-gray-500">
+                Linkedin
+              </Text>
             </a>
           </div>
         </div>
       )}
-
-      {/* {!isMobile && (
-        <div className="">
-          <Text variant="subtitle" className="">
-            Contact
-          </Text>
-        </div>
-      )} */}
     </div>
   );
 };

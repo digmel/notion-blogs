@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Client } from "@notionhq/client";
 import { GET_PUBLISHED_BLOGS_CONFIG } from "../constants";
 import { generateAssets } from "../scripts/generateAssets";
-import { BlogCard, TextInput } from "../components";
+import { BlogCard, Text } from "../components";
 import { usePlatform } from "../hooks";
+import { SearchIcon } from "../icons";
 
 export default function Home({ data }: Record<string, any>) {
   const [searchResult, setSearchResult] = useState<any[]>([]);
@@ -34,23 +35,27 @@ export default function Home({ data }: Record<string, any>) {
 
   return (
     <div className="min-h-screen mx-40">
-      <main className="flex justify-center">
-        <div className="h-full pt-4 pb-16">
+      <main>
+        <div className="h-full pb-16">
           <div className="flex items-center justify-between my-12">
-            <h1 className="text-2xl text-gray-600">
+            <Text variant="headline" className="text-gray-600">
               {searchResult.length > 0 ? "Search Results:" : "Recent articles"}
-            </h1>
+            </Text>
 
             {!isMobile && (
-              <TextInput
-                variant="input"
-                placeholder="Search"
-                onChange={(e: any) => handleSearch(e)}
-              />
+              <div className="flex flex-row justify-between items-center pr-3 rounded-md w-1/5 border border-dark-100 border-opacity-30  bg-transparent z-0 text-gray-500">
+                <input
+                  className="w-full h-full py-2 pl-4 pr-2 rounded-md outline-none focus:border-primary"
+                  onChange={(e: any) => handleSearch(e)}
+                  placeholder="Search"
+                  autoCapitalize="none"
+                />
+                <SearchIcon />
+              </div>
             )}
           </div>
 
-          <div className="max-w-none grid gap-9 md:grid-cols-3">
+          <div className="flex flex-wrap justify-center gap-12">
             {searchResult.length > 0
               ? searchResult.map((post: any) => (
                   <BlogCard key={post.id} post={post} />

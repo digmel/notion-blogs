@@ -4,17 +4,23 @@ export const SearchIcon = () => {
   return (
     <>
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 18 18"
         fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth="2.5"
-        stroke="currentColor"
-        className="w-6 h-6"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M8.25 3C5.3505 3 3 5.3505 3 8.25C3 11.1495 5.3505 13.5 8.25 13.5C11.1495 13.5 13.5 11.1495 13.5 8.25C13.5 5.3505 11.1495 3 8.25 3ZM1.5 8.25C1.5 4.52208 4.52208 1.5 8.25 1.5C11.9779 1.5 15 4.52208 15 8.25C15 11.9779 11.9779 15 8.25 15C4.52208 15 1.5 11.9779 1.5 8.25Z"
+          fill="#9CA3AF"
+        />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M11.958 11.9572C12.2508 11.6643 12.7257 11.6643 13.0186 11.9572L16.2811 15.2197C16.574 15.5126 16.574 15.9875 16.2811 16.2804C15.9882 16.5733 15.5133 16.5733 15.2205 16.2804L11.958 13.0179C11.6651 12.725 11.6651 12.2501 11.958 11.9572Z"
+          fill="#9CA3AF"
         />
       </svg>
     </>

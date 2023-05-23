@@ -23,7 +23,7 @@ export const Header = () => {
     <>
       {isMobile ? (
         <>
-          <div className="bg-light py-5 px-6 flex justify-between items-center border-b border-blue-100 border-opacity-50">
+          <div className="bg-light py-5 px-6 flex justify-between items-center shadow-sm">
             <a className="flex hover:opacity-70" onClick={goHome}>
               <Logo />
             </a>
@@ -55,18 +55,22 @@ export const Header = () => {
           )}
         </>
       ) : (
-        <div className="bg-light py-3 px-40 flex justify-between items-center border-b border-blue-100 border-opacity-50">
+        <div className="bg-light py-3 px-40 flex justify-between items-center shadow-sm">
           <a className="flex hover:opacity-70" onClick={goHome}>
             <Logo />
           </a>
 
           <div className="md:flex flex-row items-center gap-12">
             <Link href="/" className="hover:opacity-70">
-              <Text variant="label">Home</Text>
+              <Text variant="title" className="text-gray-600">
+                Home
+              </Text>
             </Link>
 
             <Link href="/contact" className="hover:opacity-70">
-              <Text variant="label">Contact</Text>
+              <Text variant="body" className="text-gray-600">
+                Contact
+              </Text>
             </Link>
           </div>
         </div>
