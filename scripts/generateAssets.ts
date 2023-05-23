@@ -30,7 +30,7 @@ export const generateAssets = (publishedBlogs: any, allBlocks: any) => {
             break;
         }
 
-        imageFormatter(block.id, _imageSrc, 800, 400);
+        imageFormatter(block.id, _imageSrc, 800, 600);
       }
     });
 

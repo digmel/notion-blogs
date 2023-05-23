@@ -37,7 +37,7 @@ export const Footer = () => {
 
           <div className="gap-4 flex flex-col">
             <a
-              href={"/"}
+              href={"https://twitter.com/SmuggleBuy"}
               rel="noreferrer"
               target="_blank"
               className="flex flex-row gap-2"
