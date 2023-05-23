@@ -78,7 +78,7 @@ const Blog = () => {
                       key={block.id}
                     >
                       <Image
-                        className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
+                        className="object-fit max-w-3/5 max-h-[600px] rounded-lg"
                         src={`/assets/${block.id}.webp` ?? ""}
                         width={800}
                         height={600}
