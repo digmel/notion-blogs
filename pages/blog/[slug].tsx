@@ -81,7 +81,7 @@ const Blog = () => {
                         className="object-fit max-w-3/5 max-h-[400px] rounded-lg"
                         src={`/assets/${block.id}.webp` ?? ""}
                         width={800}
-                        height={400}
+                        height={600}
                         alt=""
                       />
                     </div>
